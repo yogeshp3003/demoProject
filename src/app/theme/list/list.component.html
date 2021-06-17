@@ -1,0 +1,17 @@
+<table>
+    <h3>User Details</h3>
+    <tr>
+        <th>Profile</th>
+        <th>Details</th>
+    </tr>
+    <tr *ngFor="let item of allList; let i = index">
+        <td><img src="{{item.picture}}"></td>
+
+        <td>
+            <div>
+                <h6><b>Name :</b> {{item.title}} {{item.firstName}} {{item.lastName}}</h6>
+            </div>
+            <div> <b>Email</b> : {{item.email}}</div>
+        </td>
+    </tr>
+</table>
