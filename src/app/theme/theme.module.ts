@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ThemeComponent } from './theme.component';
 import { ListComponent } from './list/list.component';
 import { RouterModule, Routes } from '@angular/router';
-import { AddComponent } from './add/add.component';
+import { PostComponent } from './post/post.component';
 
 const routes: Routes = [
   {
     path: '', component: ThemeComponent,
     children: [
       { path: 'list', component: ListComponent },
-      { path: 'add', component: AddComponent },
+      { path: 'post/:uid', component: PostComponent },
       { path: '', redirectTo:'list',pathMatch:'full' }
     ]
   },
@@ -21,7 +21,7 @@ const routes: Routes = [
   declarations: [
     ThemeComponent,
     ListComponent,
-    AddComponent
+    PostComponent
   ],
   imports: [
     CommonModule,

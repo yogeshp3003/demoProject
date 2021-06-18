@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../service/api.service';
 
 @Component({
   selector: 'app-theme',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThemeComponent implements OnInit {
 
-  constructor() { }
+  loader :any;
+  constructor(private service :ApiService) {   }
 
   ngOnInit(): void {
+    this.service.loader.subscribe((res:any)=>{ this.loader = res ;})
   }
 
 }

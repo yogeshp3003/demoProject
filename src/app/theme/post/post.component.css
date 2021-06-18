@@ -1,0 +1,39 @@
+.card-columns {
+    width: 45%;
+}
+
+.img {
+    width: 50%;
+    height: 50%;
+}
+
+.box-32px {
+    width: 32px;
+    height: 32px;
+    padding: 2px;
+}
+
+.p-3 {
+    padding: 1rem!important;
+}
+
+.h-100 {
+    height: 100%!important;
+}
+
+.shadow {
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15)!important;
+}
+
+.rounded {
+    border-radius: .25rem!important;
+}
+
+.bg-white {
+    background-color: #fff!important;
+}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+}

@@ -1,17 +1,21 @@
-<table>
-    <h3>User Details</h3>
-    <tr>
-        <th>Profile</th>
-        <th>Details</th>
-    </tr>
-    <tr *ngFor="let item of allList; let i = index">
-        <td><img src="{{item.picture}}"></td>
-
-        <td>
+<h3>User Details</h3>
+<div class="td" *ngFor="let item of allUser; let i = index">
+    <div class="row ">
+        <div class="col-md-3 "><img src="{{item.picture}}"></div>
+        <div class="col-md-6 ">
             <div>
                 <h6><b>Name :</b> {{item.title}} {{item.firstName}} {{item.lastName}}</h6>
             </div>
             <div> <b>Email</b> : {{item.email}}</div>
-        </td>
-    </tr>
-</table>
+            <a routerLink="/post/{{item.id}}">Check Post</a>
+            <div class="row">
+                <a class="col-md-3" style="color: red;">
+                    <i class="fa fa-trash"></i>
+                </a>
+                <a class="col-md-3">
+                    <i class="fa fa-edit"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
