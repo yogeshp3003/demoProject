@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/service/api.service';
+import { LoaderService } from 'src/app/service/loader.service';
+
+declare var $ ;
 
 interface user {
   id: string;
@@ -30,45 +33,62 @@ class userObj implements user {
 export class ListComponent implements OnInit {
 
   public allUser: user[];
+  model: any = {};
+  uId : number;
 
   constructor(
     private service: ApiService,
-    private router: Router) {
-    this.service.loader_show();
+    private loaderservice: LoaderService,
+    private router : Router,) {
   }
 
   ngOnInit(): void {
-    // this.service.getAllList();
     this.getAllList()
   }
 
   getAllList() {
-    this.service.loader_hide();
-    // this.allList = this.service.allUser; 
-    this.service.getAllList().subscribe((res) => {
-      // this.allUser = res.data 
-      // console.log(this.allUser) 
-      if (res.data !== undefined) {
-        const items = res.data;
-        const data: user[] = [];
+    this.loaderservice.loader_show();
 
-        if (items.length > 0) {
-          this.allUser = [];
-          for (const item of items) {
-            const cData: user = new userObj();
-            cData.id = item.id;
-            cData.title = item.title;
-            cData.firstName = item.firstName;
-            cData.lastName = item.lastName;
-            cData.email = item.email;
-            cData.picture = item.picture;
-            data.push(cData);
-          }
-          this.allUser = data;
-          console.log(this.allUser)
-        }
-      }
-    });
+    this.service.allList.subscribe((res)=>{
+      this.allUser = res;
+      this.loaderservice.loader_hide();
+    }) 
+  }
+
+  deleteUser(uId){
+    const res = confirm('Do You Want To Delete ?')
+    if(res){
+      this.allUser.forEach((value,index)=>{
+        if(value.id==uId) this.service.allUser.splice(index,1);     //use filter fun
+      });
+    }
+    this.service.updateObject();
+  }
+
+  UpdatedItem(){
+    let updateItem = this.service.allUser.find(this.findIndexToUpdate, this.uId);
+    let index = this.service.allUser.indexOf(updateItem);          //use de structuring object   ... es6
+    this.service.allUser[index].firstName = this.model.firstName;
+    this.service.allUser[index].lastName = this.model.lastName;
+    this.service.allUser[index].email = this.model.email;
+    this.service.updateObject();
+    $("#myModal").modal('hide');
+  }
+
+  findIndexToUpdate(newItem) { 
+    return newItem.id === this;
+  }
+
+  modelOpen(item){
+    this.uId = item.id ;
+    this.model.firstName = item.firstName
+    this.model.lastName = item.lastName
+    this.model.email = item.email
+    $("#myModal").modal('show');
+  }
+
+  checkPost(id){
+    this.router.navigateByUrl("/post/"+ id);
   }
 
 }

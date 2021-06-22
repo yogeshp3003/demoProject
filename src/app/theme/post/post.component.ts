@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/service/api.service';
+import { LoaderService } from 'src/app/service/loader.service';
 
 @Component({
   selector: 'app-post',
@@ -10,24 +11,31 @@ import { ApiService } from 'src/app/service/api.service';
 export class PostComponent implements OnInit {
 
   uId: string;
-  allPost: any;
+  userPost: any ;
+  allUser: any;
 
   constructor(
     private service: ApiService,
+    private loaderservice: LoaderService,
     private route: ActivatedRoute,) {
-    this.service.loader_show();
   }
 
   ngOnInit(): void {
     this.uId = this.route.snapshot.params.uid;
-    this.getAllPost();
+    this.getAllList(this.uId);
   }
 
-  getAllPost() {
-    this.service.loader_hide();
-    this.service.getAllUserPost(this.uId).subscribe((res) => {
-      this.allPost = res.data
-      console.log(this.allPost)
-    })
+
+  getAllList(uId) {
+    this.loaderservice.loader_show();
+    this.service.allList.subscribe((res)=>{
+      res.forEach((value,index)=>{
+        if(value.id==uId){
+          this.userPost = res[index]
+          this.loaderservice.loader_hide();
+        }
+      });
+    }) 
   }
+
 }

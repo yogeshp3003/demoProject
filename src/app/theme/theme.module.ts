@@ -4,6 +4,7 @@ import { ThemeComponent } from './theme.component';
 import { ListComponent } from './list/list.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PostComponent } from './post/post.component';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule.forChild(routes)
   ]
 })

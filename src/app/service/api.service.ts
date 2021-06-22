@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { promise } from 'protractor';
+import { BehaviorSubject } from 'rxjs';
 
 interface user {
   id: string;
@@ -30,59 +31,64 @@ export class ApiService {
   baseUrl = 'https://dummyapi.io/data/api/';
   public allUser: user[];
   public allUserPost: any;
-  public loader = new BehaviorSubject<boolean>(false);
+  public allList = new BehaviorSubject<user[]>(null);
 
-  constructor(private http: HttpClient) { }
-
-  loader_show() {
-    this.loader.next(true);
-    return this.loader;
-  }
-
-  loader_hide() {
-    this.loader.next(false);
-    return this.loader;
+  constructor(private http: HttpClient) {
+    this.getAllList();
   }
 
   getAllList() {
     return this.http.get<any>(this.baseUrl + 'user?limit=10',
       {
-        headers: new HttpHeaders({ 'app-id': `60cb3d032a1af53afcc0e96c` })
+        headers: new HttpHeaders({ 'app-id': `60d1e77fc1774aa733f30ca2` })
       })
-      // .subscribe((res) => {
-      //         // this.allUser = res.data 
-      //         // console.log(this.allUser) 
-      //   if (res.data !== undefined) {
-      //     const items = res.data;
-      //     const data: user[] = [];
+      .subscribe((res) => {
+        if (res.data !== undefined) {
+          const items = res.data;
+          const data: user[] = [];
 
-      //     if (items.length > 0) {
-      //       this.allUser = [];
-      //       for (const item of items) {
-      //         const cData: user = new userObj();
-      //         cData.id = item.id;
-      //         cData.title = item.title;
-      //         cData.firstName = item.firstName;
-      //         cData.lastName = item.lastName;
-      //         cData.email = item.email;
-      //         cData.picture = item.picture;
-      //         data.push(cData);
-      //       }
-      //       this.allUser = data;
-      //       console.log(this.allUser)
-      //     }
-      //   }
-      // });
+          if (items.length > 0) {
+            this.allUser = [];
+            for (const item of items) {
+              const cData: user = new userObj();
+              cData.id = item.id;           //use constructor for assign values
+              cData.title = item.title;
+              cData.firstName = item.firstName;
+              cData.lastName = item.lastName;
+              cData.email = item.email;
+              cData.picture = item.picture;
+              cData.post = item.post;
+              data.push(cData);
+            }
+            this.allUser = data;
+            this.updateObject();
+            this.getAllUserPost();
+          }
+        }
+      });
   }
 
-  getAllUserPost(uId) {
-    return this.http.get<any>(this.baseUrl + 'user/' + uId + '/post?limit=10',
-      {
-        headers: new HttpHeaders({ 'app-id': `60cb3d032a1af53afcc0e96c` })
-      })
-    // .subscribe((res)=>{
-    //   this.allUserPost = res.data 
-    //   console.log(this.allUserPost) 
-    // });
+  getAllUserPost() {   //promiss all used
+
+    Promise.all(this.allUser).then(values => {
+      values.forEach((value, index) => {
+
+        this.http.get<any>(this.baseUrl + 'user/' + value.id + '/post?limit=10',
+          {
+            headers: new HttpHeaders({ 'app-id': `60d1e77fc1774aa733f30ca2` })
+          })
+          .subscribe((res) => {
+            this.allUser[index].post = res.data;
+          });
+
+      });
+    });
+
+    this.updateObject();
+
+  }
+
+  updateObject() {
+    this.allList.next(this.allUser)
   }
 }

@@ -7,6 +7,7 @@ import { ThemeModule } from './theme/theme.module';
 import { ApiService } from './service/api.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
+import { LoaderService } from './service/loader.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { HttpClientModule } from '@angular/common/http'
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [ApiService],
+  providers: [ApiService,LoaderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

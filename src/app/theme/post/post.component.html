@@ -1,21 +1,22 @@
 <a routerLink="/list">  Back To User</a>
 <div class="container">
-    <div class="card-columns" *ngFor="let item of allPost; let i = index">
+    <div class="card-columns" *ngFor="let item of userPost.post; let i = index">
         <div class="p-2 d-inline-block w-100">
             <div class="bg-white rounded shadow p-3 h-50">
                 <div class="border-bottom pb-2 mb-2 d-flex align-items-center">
-                    <img class="box-32px rounded-circle" src="{{item.owner.picture}}" alt="author">
+                    <img class="box-32px rounded-circle" src="{{userPost.picture}}" alt="author">
                     <div class="ml-2">
-                        <div class="h6 mb-0">{{item.owner.firstName}} {{item.owner.lastName}}</div>
-                        <div class="text-muted small">{{item.owner.email}}</div>
+                        <div class="h6 mb-0">{{userPost.firstName}} {{userPost.lastName}}</div>
+                        <div class="text-muted small">{{userPost.email}}</div>
                     </div>
                 </div>
                 <img class="w-100 mx-auto d-block" src="{{item.image}}" alt="long-coated">
-                <div class="d-flex my-2 mx-n1">
+                <!-- <div class="d-flex my-2 mx-n1">
                     <div class="badge badge-pill badge-pink ml-1">dog</div>
                     <div class="badge badge-pill badge-pink ml-1">animal</div>
                     <div class="badge badge-pill badge-pink ml-1">pet</div>
-                </div>{{item.text}}<br>
+                </div> -->
+                {{item.text}}<br>
                 <div class="d-flex justify-content-between border-top pt-2 mt-2">
                     <div>
                         <i class="fa fa-heart" style="color: red;"></i> {{item.likes}} Likes
